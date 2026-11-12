@@ -1,0 +1,18 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: sql_gateway_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sql_admin
+      POSTGRES_PASSWORD: MySecurePass2026
+      POSTGRES_DB: sql_gateway
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sql_admin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
